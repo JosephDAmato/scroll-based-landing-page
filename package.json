@@ -1,0 +1,16 @@
+{
+  "name": "three_js_broilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "three": "^0.173.0",
+    "vite": "^6.1.0"
+  }
+}

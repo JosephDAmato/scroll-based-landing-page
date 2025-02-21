@@ -1,0 +1,17 @@
+# Node modules and dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# Build and cache files
+dist/
+build/
+.cache/
+tmp/
