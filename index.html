@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>THREE.js Boilerplate</title>
     <link rel="stylesheet" href="styles.css" />
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-      }
-    </style>
   </head>
   <body>
     <canvas class="canvasGL"></canvas>
@@ -20,16 +14,25 @@
         <h3 class="hero_title highlight">&</h3>
         <h2 class="hero_title">His Universe</h2>
       </div>
-    </section>
-    <section class="portfolio">
-      <h2>Portfolio</h2>
-    </section>
-    <section class="blog">
-      <h2>Blog</h2>
-    </section>
-    <section class="contact">
-      <h2>Contact</h2>
-    </section>
+    <div class="call_to_action"> 
+      </section>
+      <section class="portfolio">
+        <h2 class="link" data-value="portfolio">Portfolio</h2>
+      </section>
+      <section class="blog">
+        <h2 class="link" data-value="Blog">Blog</h2>
+      </section>
+      <section class="contact">
+        <h2 class="link" data-value="Contact">Contact</h2>
+      </section>
+    </div>
+    <div id="my_modal" class="modal">
+      <div class="modal_content">
+      <span class="close">&times;</span>
+      <div id="message"></div>
+    </div>
+    </div>
+     
     <script type="module" src="main.js"></script>
   </body>
 </html>

@@ -6,6 +6,7 @@
  */
 
 import { Vector2 } from "three";
+import { Clock } from "three";
 class ParallaxXY {
   constructor(group) {
     // set mouse properties
@@ -14,8 +15,11 @@ class ParallaxXY {
     this.mouse.y = 0;
     // update the mouse
     window.addEventListener("mousemove", (e) => {
-      this.mouse.x = e.clientX / window.innerWidth;
-      this.mouse.y = e.clientY / window.innerHeight;
+      this.mouse.x += e.clientX / window.innerWidth;
+      this.mouse.y += e.clientY / window.innerHeight;
+      // clock settings
+      this.clock = new Clock();
+      this.previousTime = 0;
     });
     // set group to add movement effect
     this.group = group;
@@ -25,9 +29,9 @@ class ParallaxXY {
 
   tick() {
     let parallaxX = this.mouse.x;
-    this.group.position.x = parallaxX;
+    this.group.position.x += parallaxX - this.group.position.x;
     let parallaxY = this.mouse.y;
-    this.group.position.y = parallaxY;
+    this.group.position.y += parallaxY - this.group.position.y;
   }
 }
 
