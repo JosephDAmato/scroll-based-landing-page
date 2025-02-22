@@ -80,7 +80,7 @@ frenchFryMesh.position.set(6, -objectDistance * 2, 0);
 const sodaMesh = new THREE.Mesh(
   new THREE.CylinderGeometry(1.1, 1, 4.5, 40, 3),
   new THREE.MeshStandardMaterial({
-    color: "offwhite",
+    color: "tan",
     roughness: 10,
   })
 );
@@ -118,7 +118,7 @@ window.addEventListener("scroll", () => {
 function animate() {
   // === Camera Animations === //
   camera.position.y = -(scrollY / window.innerHeight) * objectDistance;
-  parallaxXY.tick;
+  parallaxXY.tick();
 
   // === Object Animations === //
   donut.rotation.x += 0.01;
