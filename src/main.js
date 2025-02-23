@@ -53,7 +53,7 @@ modelLoader.setDRACOLoader(dracoLoader);
 // Load Resources
 // Hamburger
 let hamburgerModel;
-modelLoader.load("hamburger.glb", function (gltf) {
+modelLoader.load("/public/models/hamburger.glb", function (gltf) {
   hamburgerModel = gltf.scene;
   scene.add(hamburgerModel);
   hamburgerModel.scale.set(0.5, 0.5, 0.5);
@@ -82,7 +82,7 @@ scene.add(donut);
 //     console.log(`fetch error: ${error}`);
 //   });
 let frenchfriesModel;
-modelLoader.load("/public/frenchfries.gltf", function (gltf) {
+modelLoader.load("/public/models/frenchfries.gltf", function (gltf) {
   console.log(gltf);
   frenchfriesModel = gltf.scene;
   scene.add(frenchfriesModel);
@@ -102,9 +102,9 @@ sodaMesh.position.set(-6, -objectDistance * 3, 0);
 scene.add(sodaMesh);
 
 // === Lights === //
-const ambientLight = new THREE.AmbientLight(0xce4fde, 2.5);
+const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
 scene.add(ambientLight);
-
+// 0xce4fde a purple color
 // === Renderer === //
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
@@ -125,6 +125,7 @@ let scrollY = 0;
 window.addEventListener("scroll", () => {
   scrollY = window.scrollY;
 });
+
 /**
  *  Animations and Ticks
  */
