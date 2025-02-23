@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lil-gui": "^0.20.0",
     "three": "^0.173.0",
     "vercel": "^41.2.0"
   },

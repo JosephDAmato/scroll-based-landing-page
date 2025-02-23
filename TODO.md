@@ -1,0 +1,8 @@
+- [x] Refactor file struture
+- [ ] Refactor mouse controls into its own file so i can access mouse dependant features in the future
+- [ ] Refactor scroll into mouse file or it own
+- [ ] Create sprite generator
+- [ ] Make shake cup
+- [ ] Update links
+- [ ] stylize modal
+- [ ] comment code

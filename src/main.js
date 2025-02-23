@@ -1,9 +1,10 @@
 import * as THREE from "three";
+import GUI from "lil-gui";
 import { ParallaxXY } from "./ParallaxXY";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { linkHandler } from "./LinkHandler";
 import { handleclose } from "./LinkHandler";
-
+console.log(GUI);
 // === Global Elements and Variables
 //canvas
 const canvas = document.querySelector(".canvasGL");
@@ -69,18 +70,7 @@ const donut = new THREE.Mesh(donutGeometry, donutMaterial);
 donut.position.set(7.75, 2, 0);
 scene.add(donut);
 
-// French Fries Place holder
-// fetch("/public/frenchfries.glb")
-//   .then((response) => {
-//     console.log(response.headers.get("Content-Type"));
-//     return response.arrayBuffer();
-//   })
-//   .then((buffer) => {
-//     console.log("file size: ", buffer.byteLength);
-//   })
-//   .catch((error) => {
-//     console.log(`fetch error: ${error}`);
-//   });
+// French Fries
 let frenchfriesModel;
 modelLoader.load("/public/models/frenchfries.gltf", function (gltf) {
   console.log(gltf);
@@ -89,7 +79,7 @@ modelLoader.load("/public/models/frenchfries.gltf", function (gltf) {
   frenchfriesModel.position.set(6, -objectDistance * 2, 0);
   frenchfriesModel.scale.set(1.25, 1.25, 1.25);
 });
-// frenchfriesModel.scale(10, 10, 10);
+
 // Soda
 const sodaMesh = new THREE.Mesh(
   new THREE.CylinderGeometry(1.1, 1, 4.5, 40, 3),
@@ -101,6 +91,42 @@ const sodaMesh = new THREE.Mesh(
 sodaMesh.position.set(-6, -objectDistance * 3, 0);
 scene.add(sodaMesh);
 
+// == Sprites == //
+// Sprite Params
+let params = {
+  spriteCount: 3000,
+  spriteColor: 0xbf78bf,
+};
+let spriteCount = params.spriteCount;
+
+// Sprite Creation
+const spritePositionArray = new Float32Array(spriteCount * 3);
+console.log(spritePositionArray.length); // 900 positions
+//procedual generate x,y,z
+for (let i = 0; i < spritePositionArray.length; i++) {
+  // Our Vector3 positions on the array
+  const index3 = i * 3;
+  // our array will be like this [x,y,z,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z]
+  spritePositionArray[i * index3 + 0] = (Math.random() - 0.5) * 20; //example (i=0, 0 * 3 + 0 = 0)
+  spritePositionArray[i * index3 + 1] = -(Math.random() - 0.5) * 50; //example (i=1, 0 * 3 + 1 = 1)
+  spritePositionArray[i * index3 + 2] = (Math.random() - 0.5) * 2; //example (i=2, 0 * 3 + 2 = 2)
+}
+console.log(Math.random());
+//buffergeo//getattributes add array
+const spriteGeometry = new THREE.BufferGeometry();
+spriteGeometry.setAttribute(
+  "position",
+  new THREE.BufferAttribute(spritePositionArray, 3)
+);
+//points material
+const spriteMaterial = new THREE.PointsMaterial({
+  color: params.spriteColor,
+  sizeAttenuation: true,
+  size: 0.5103,
+});
+//something somethin combine all and add to cameraGroup
+const spriteMesh = new THREE.Points(spriteGeometry, spriteMaterial);
+cameraGroup.add(spriteMesh);
 // === Lights === //
 const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
 scene.add(ambientLight);
@@ -153,3 +179,19 @@ window.addEventListener("resize", () => {
   renderer.setSize(canvasSize.width, canvasSize.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
+
+/**
+ * Debug UI Panel
+ */
+const gui = new GUI();
+const spriteFolder = gui.addFolder("Sprites");
+
+spriteFolder
+  .add(params, "spriteCount")
+  .min(100)
+  .max(10000)
+  .step(10)
+  .name("Sprite Count")
+  .onFinishChange(() => {
+    console.log("finished change");
+  });
