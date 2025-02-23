@@ -10,7 +10,6 @@ class ParallaxXY {
   constructor(group) {
     // set mouse properties
     this.mouse = new Vector2();
-    console.log(this.mouse);
     this.mouse.x = 0;
     this.mouse.y = 0;
     // update the mouse
@@ -27,8 +26,6 @@ class ParallaxXY {
     this.group.position.x += parallaxX - this.group.position.x;
     let parallaxY = this.mouse.y;
     this.group.position.y += parallaxY - this.group.position.y;
-    console.log(this.mouse);
-    console.log(this.group.position);
   }
 }
 

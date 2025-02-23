@@ -52,8 +52,9 @@ modelLoader.setDRACOLoader(dracoLoader);
 
 // Load Resources
 // Hamburger
+let hamburgerModel;
 modelLoader.load("hamburger.glb", function (gltf) {
-  const hamburgerModel = gltf.scene;
+  hamburgerModel = gltf.scene;
   scene.add(hamburgerModel);
   hamburgerModel.scale.set(0.5, 0.5, 0.5);
   hamburgerModel.scale.set(0.5, 0.5, 0.5);
@@ -69,13 +70,26 @@ donut.position.set(7.75, 2, 0);
 scene.add(donut);
 
 // French Fries Place holder
-const frenchFryMesh = new THREE.Mesh(
-  new THREE.BoxGeometry(2, 4.5, 1.88),
-  new THREE.MeshStandardMaterial({ color: "red" })
-);
-scene.add(frenchFryMesh);
-frenchFryMesh.position.set(6, -objectDistance * 2, 0);
-
+// fetch("/public/frenchfries.glb")
+//   .then((response) => {
+//     console.log(response.headers.get("Content-Type"));
+//     return response.arrayBuffer();
+//   })
+//   .then((buffer) => {
+//     console.log("file size: ", buffer.byteLength);
+//   })
+//   .catch((error) => {
+//     console.log(`fetch error: ${error}`);
+//   });
+let frenchfriesModel;
+modelLoader.load("/public/frenchfries.gltf", function (gltf) {
+  console.log(gltf);
+  frenchfriesModel = gltf.scene;
+  scene.add(frenchfriesModel);
+  frenchfriesModel.position.set(6, -objectDistance * 2, 0);
+  frenchfriesModel.scale.set(1.25, 1.25, 1.25);
+});
+// frenchfriesModel.scale(10, 10, 10);
 // Soda
 const sodaMesh = new THREE.Mesh(
   new THREE.CylinderGeometry(1.1, 1, 4.5, 40, 3),
@@ -86,7 +100,6 @@ const sodaMesh = new THREE.Mesh(
 );
 sodaMesh.position.set(-6, -objectDistance * 3, 0);
 scene.add(sodaMesh);
-console.log(frenchFryMesh);
 
 // === Lights === //
 const ambientLight = new THREE.AmbientLight(0xce4fde, 2.5);
