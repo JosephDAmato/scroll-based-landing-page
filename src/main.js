@@ -49,7 +49,7 @@ scene.add(sceneAssets);
 // === Textures === //
 const textureLoader = new THREE.TextureLoader();
 
-const pointsTexture = textureLoader.load("/imgs/points/sprinkle.png");
+const pointsTexture = textureLoader.load("/imgs/points/sprinkle2.png");
 console.log(pointsTexture);
 
 /// === Models === ///
@@ -208,13 +208,14 @@ function animate() {
 
     const x = spriteGeometry.attributes.position.array[i3 * 0];
     const z = spriteGeometry.attributes.position.array[i3 * 2];
-    spriteGeometry.attributes.position.array[i3 + 1] += Math.cos(
-      elapsedTime - z
-    );
-    spriteGeometry.attributes.position.array[i3] += Math.sin(elapsedTime + x);
+    spriteGeometry.attributes.position.array[i3 + 1] +=
+      Math.cos(elapsedTime - z) / 10;
+    spriteGeometry.attributes.position.array[i3] +=
+      Math.sin(elapsedTime + x) / 104;
   }
 
   spriteMesh.rotation.z += deltaTime * 0.5;
+
   spriteGeometry.attributes.position.needsUpdate = true;
 
   donut.rotation.x += 0.01;
