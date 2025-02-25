@@ -4,7 +4,10 @@ import { ParallaxXY } from "./ParallaxXY";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 import { linkHandler } from "./LinkHandler";
 import { handleclose } from "./LinkHandler";
-console.log(GUI);
+import Stats from "stats.js";
+const stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
 // === Global Elements and Variables
 //canvas
 const canvas = document.querySelector(".canvasGL");
@@ -30,7 +33,7 @@ scene.add(cameraGroup);
 const camera = new THREE.PerspectiveCamera(
   75,
   canvasSize.width / canvasSize.height,
-  0.1,
+  0.01,
   1000
 );
 camera.position.z = 10;
@@ -39,10 +42,15 @@ cameraGroup.add(camera);
  *  TEXTURES, GEOMETRY, MATERIALS, & MESHES
  */
 // == Global Model Variables == //
-const objectDistance = 9;
+const objectDistance = 10;
+const sceneAssets = new THREE.Group();
+scene.add(sceneAssets);
 
 // === Textures === //
 const textureLoader = new THREE.TextureLoader();
+
+const pointsTexture = textureLoader.load("/imgs/points/sprinkle.png");
+console.log(pointsTexture);
 
 /// === Models === ///
 // BROILERPLATE
@@ -56,10 +64,10 @@ modelLoader.setDRACOLoader(dracoLoader);
 let hamburgerModel;
 modelLoader.load("/public/models/hamburger.glb", function (gltf) {
   hamburgerModel = gltf.scene;
-  scene.add(hamburgerModel);
+  sceneAssets.add(hamburgerModel);
   hamburgerModel.scale.set(0.5, 0.5, 0.5);
   hamburgerModel.scale.set(0.5, 0.5, 0.5);
-  hamburgerModel.position.set(-7, -objectDistance * 1, 0);
+  hamburgerModel.position.set(-6, -objectDistance * 1, 0);
 });
 
 // === Geometry === //
@@ -68,14 +76,14 @@ const donutGeometry = new THREE.TorusGeometry(1, 0.4, 16, 100);
 const donutMaterial = new THREE.MeshBasicMaterial({ color: "pink" });
 const donut = new THREE.Mesh(donutGeometry, donutMaterial);
 donut.position.set(7.75, 2, 0);
-scene.add(donut);
+sceneAssets.add(donut);
 
 // French Fries
 let frenchfriesModel;
 modelLoader.load("/public/models/frenchfries.gltf", function (gltf) {
   console.log(gltf);
   frenchfriesModel = gltf.scene;
-  scene.add(frenchfriesModel);
+  sceneAssets.add(frenchfriesModel);
   frenchfriesModel.position.set(6, -objectDistance * 2, 0);
   frenchfriesModel.scale.set(1.25, 1.25, 1.25);
 });
@@ -89,48 +97,72 @@ const sodaMesh = new THREE.Mesh(
   })
 );
 sodaMesh.position.set(-6, -objectDistance * 3, 0);
-scene.add(sodaMesh);
+sceneAssets.add(sodaMesh);
 
 // == Sprites == //
 // Sprite Params
 let params = {
-  spriteCount: 3000,
-  spriteColor: 0xbf78bf,
+  spriteCount: 1000,
+  spriteColor: 0xfd395a,
+  // 0xbf78bf
 };
 let spriteCount = params.spriteCount;
 
 // Sprite Creation
 const spritePositionArray = new Float32Array(spriteCount * 3);
+const spriteColorArray = new Float32Array(spriteCount * 3);
 console.log(spritePositionArray.length); // 900 positions
-//procedual generate x,y,z
+
+// Procedural generate x,y,z
 for (let i = 0; i < spritePositionArray.length; i++) {
   // Our Vector3 positions on the array
   const index3 = i * 3;
-  // our array will be like this [x,y,z,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z]
-  spritePositionArray[i * index3 + 0] = (Math.random() - 0.5) * 20; //example (i=0, 0 * 3 + 0 = 0)
-  spritePositionArray[i * index3 + 1] = -(Math.random() - 0.5) * 50; //example (i=1, 0 * 3 + 1 = 1)
-  spritePositionArray[i * index3 + 2] = (Math.random() - 0.5) * 2; //example (i=2, 0 * 3 + 2 = 2)
+  // === Set X Y Z vectors === //
+  // our array will be like this:
+  // [x,y,z,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z,x,y,z]
+  spritePositionArray[index3 + 0] = (Math.random() - 0.5) * 30; //example (i=0, 0 * 3 + 0 = 0)
+  spritePositionArray[index3 + 1] = -Math.random() * objectDistance * 45; //example (i=1, 0 * 3 + 1 = 1)
+  spritePositionArray[index3 + 2] = (Math.random() - 0.9) * 20; //example (i=2, 0 * 3 + 2 = 2)
+  // === Set our RGB colors === //
+  spriteColorArray[i] = Math.random();
 }
-console.log(Math.random());
-//buffergeo//getattributes add array
+
 const spriteGeometry = new THREE.BufferGeometry();
 spriteGeometry.setAttribute(
   "position",
   new THREE.BufferAttribute(spritePositionArray, 3)
 );
+spriteGeometry.setAttribute(
+  "color",
+  new THREE.BufferAttribute(spriteColorArray, 3)
+);
+console.log(spriteGeometry.color);
+
 //points material
 const spriteMaterial = new THREE.PointsMaterial({
-  color: params.spriteColor,
+  // color: params.spriteColor,
   sizeAttenuation: true,
-  size: 0.5103,
+  visible: true,
+  size: 0.83103,
+  map: pointsTexture,
+  transparent: true,
+  alphaMap: pointsTexture,
+  vertexColors: true, // This makes sure our Float32Array colors are applied
+  blendAlpha: THREE.AdditiveBlending,
 });
 //something somethin combine all and add to cameraGroup
 const spriteMesh = new THREE.Points(spriteGeometry, spriteMaterial);
-cameraGroup.add(spriteMesh);
+scene.add(spriteMesh);
+
 // === Lights === //
-const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
-scene.add(ambientLight);
+const sectionLight1 = new THREE.DirectionalLight(0xffffff, 2.5);
+sectionLight1.position.set(0, objectDistance * 0, 5);
+const sectionLight2 = sectionLight1.clone();
+sectionLight2.position.set(0, objectDistance * 2, 5);
+const ambientLight = new THREE.AmbientLight(0xce4fde, 2.5);
+sceneAssets.add(ambientLight, sectionLight1, sectionLight2);
 // 0xce4fde a purple color
+
 // === Renderer === //
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
@@ -155,16 +187,41 @@ window.addEventListener("scroll", () => {
 /**
  *  Animations and Ticks
  */
+
+const clock = new THREE.Clock();
+console.log(spriteGeometry);
 function animate() {
+  //stats
+  stats.begin(); // Start measuring
+  let deltaTime = clock.getDelta();
+  let elapsedTime = clock.getElapsedTime();
   // === Camera Animations === //
   camera.position.y = -(scrollY / window.innerHeight) * objectDistance;
   parallaxXY.tick();
 
   // === Object Animations === //
+  // spriteMesh.position.x = cameraGroup.position.x * -1;
+  // spriteMesh.position.z = cameraGroup.position.z * -1;
+
+  for (let i = 0; i < params.spriteCount; i++) {
+    let i3 = i * 3;
+
+    const x = spriteGeometry.attributes.position.array[i3 * 0];
+    const z = spriteGeometry.attributes.position.array[i3 * 2];
+    spriteGeometry.attributes.position.array[i3 + 1] += Math.cos(
+      elapsedTime - z
+    );
+    spriteGeometry.attributes.position.array[i3] += Math.sin(elapsedTime + x);
+  }
+
+  spriteMesh.rotation.z += deltaTime * 0.5;
+  spriteGeometry.attributes.position.needsUpdate = true;
+
   donut.rotation.x += 0.01;
   donut.rotation.y += 0.01;
   renderer.render(scene, camera);
   window.requestAnimationFrame(animate);
+  stats.end(); // Stop measuring
 }
 animate();
 
