@@ -1,8 +1,8 @@
-- [x] Refactor file struture
+- [x] Refactor file structure
 - [ ] Refactor mouse controls into its own file so i can access mouse dependant features in the future
-- [ ] Refactor scroll into mouse file or it own
-- [ ] Create sprite generator
-- [ ] Make shake cup
+- [ ] Refactor scroll into mouse file or it own <== NEXT
+- [ ] Create sprite generator <== Not Patterned the way i like it. Look into the coords in the FLOAT32Array
+- [ ] Make shake cup <== Could be a quick easy evening spin up
 - [ ] Update links
 - [ ] stylize modal
 - [ ] comment code
