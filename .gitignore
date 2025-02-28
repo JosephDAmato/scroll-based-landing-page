@@ -9,7 +9,7 @@ Thumbs.db
 .vscode/
 .idea/
 *.log
-
+TODO.md
 # Build and cache files
 dist/
 build/
