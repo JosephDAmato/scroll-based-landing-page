@@ -85,3 +85,13 @@ section {
   text-decoration: none;
   cursor: pointer;
 }
+
+h2 {
+  font-size: 13vmin;
+  color: aliceblue;
+  text-shadow: 3px 2px 1px pink;
+  letter-spacing: 2.5vmax;
+}
+h2:hover {
+  color: chartreuse;
+}
