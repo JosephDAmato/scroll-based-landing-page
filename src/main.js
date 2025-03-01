@@ -62,7 +62,7 @@ modelLoader.setDRACOLoader(dracoLoader);
 // Load Resources
 // Hamburger
 let hamburgerModel;
-modelLoader.load("/public/models/hamburger.glb", function (gltf) {
+modelLoader.load("./public/models/hamburger.glb", function (gltf) {
   hamburgerModel = gltf.scene;
   sceneAssets.add(hamburgerModel);
   hamburgerModel.scale.set(0.5, 0.5, 0.5);
@@ -80,7 +80,7 @@ sceneAssets.add(donut);
 
 // French Fries
 let frenchfriesModel;
-modelLoader.load("/public/models/frenchfries.gltf", function (gltf) {
+modelLoader.load("./public/models/frenchfries.gltf", function (gltf) {
   console.log(gltf);
   frenchfriesModel = gltf.scene;
   sceneAssets.add(frenchfriesModel);
