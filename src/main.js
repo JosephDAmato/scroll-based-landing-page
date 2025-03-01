@@ -50,7 +50,6 @@ scene.add(sceneAssets);
 const textureLoader = new THREE.TextureLoader();
 
 const pointsTexture = textureLoader.load("/imgs/points/sprinkle2.png");
-console.log(pointsTexture);
 
 /// === Models === ///
 // BROILERPLATE
@@ -81,7 +80,6 @@ sceneAssets.add(donut);
 // French Fries
 let frenchfriesModel;
 modelLoader.load("/models/frenchfries.gltf", function (gltf) {
-  console.log(gltf);
   frenchfriesModel = gltf.scene;
   sceneAssets.add(frenchfriesModel);
   frenchfriesModel.position.set(6, -objectDistance * 2, 0);
@@ -111,7 +109,6 @@ let spriteCount = params.spriteCount;
 // Sprite Creation
 const spritePositionArray = new Float32Array(spriteCount * 3);
 const spriteColorArray = new Float32Array(spriteCount * 3);
-console.log(spritePositionArray.length); // 900 positions
 
 // Procedural generate x,y,z
 for (let i = 0; i < spritePositionArray.length; i++) {
@@ -136,7 +133,6 @@ spriteGeometry.setAttribute(
   "color",
   new THREE.BufferAttribute(spriteColorArray, 3)
 );
-console.log(spriteGeometry.color);
 
 //points material
 const spriteMaterial = new THREE.PointsMaterial({
@@ -189,7 +185,6 @@ window.addEventListener("scroll", () => {
  */
 
 const clock = new THREE.Clock();
-console.log(spriteGeometry);
 function animate() {
   //stats
   stats.begin(); // Start measuring
@@ -233,7 +228,9 @@ animate();
 window.addEventListener("resize", () => {
   canvasSize.width = window.innerWidth;
   canvasSize.height = window.innerHeight;
+
   camera.aspect = canvasSize.width / canvasSize.height;
+
   renderer.setSize(canvasSize.width, canvasSize.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
@@ -241,15 +238,15 @@ window.addEventListener("resize", () => {
 /**
  * Debug UI Panel
  */
-const gui = new GUI();
-const spriteFolder = gui.addFolder("Sprites");
+// const gui = new GUI();
+// const spriteFolder = gui.addFolder("Sprites");
 
-spriteFolder
-  .add(params, "spriteCount")
-  .min(100)
-  .max(10000)
-  .step(10)
-  .name("Sprite Count")
-  .onFinishChange(() => {
-    console.log("finished change");
-  });
+// spriteFolder
+//   .add(params, "spriteCount")
+//   .min(100)
+//   .max(10000)
+//   .step(10)
+//   .name("Sprite Count")
+//   .onFinishChange(() => {
+//     console.log("finished change");
+//   });

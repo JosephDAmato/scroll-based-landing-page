@@ -92,6 +92,7 @@ h2 {
   text-shadow: 3px 2px 1px pink;
   letter-spacing: 2.5vmax;
 }
-h2:hover {
-  color: chartreuse;
+section h2:hover {
+  color: cornflowerblue;
+  cursor: pointer;
 }

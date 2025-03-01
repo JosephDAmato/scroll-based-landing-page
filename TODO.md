@@ -6,8 +6,13 @@
 - [ ] Update links
 - [ ] stylize modal
 - [ ] comment code
-- [ ] Push to Production
+- [x] Push to Production
+  - [ ] Continual updates
+- [ ] Add footer
 
+- Mar 1
+  Fixed file path issues. Even though the public folder is....well public, vercel on its build or vite or something ignores the public pathing and makes it at the root so my models were not loading in production but they were locally
+  Added simpler hover effect for section links
 - Feb 25
   Added sprinkle.png
   Fixed sprite positionArray values. They were indexed wrong during creation
